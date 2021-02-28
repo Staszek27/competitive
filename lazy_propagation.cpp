@@ -19,7 +19,6 @@ void clear_all(){
 }
 
 void propagate(int node){
-    cout << "propaguje: " << node << endl;
     if (lazy[node] == 0){
         return;
         // nothing to do
@@ -55,14 +54,13 @@ int query(int beg, int en, int node = 1, int subtree_beg = 0, int subtree_en = S
     }
     
     if (beg <= subtree_beg && subtree_en <= en){
-        cout << "zwracam " << node << endl;
         return tree[node];
         // we take whole subtree
     }
     int mid = (subtree_beg + subtree_en) / 2;
     return max(
-        query(beg, en, node * 2 + 1, subtree_beg, mid),
-        query(beg, en, node * 2 + 1, mid + 1, subtree_en)
+        query(beg, en, node * 2, subtree_beg, mid), // take left
+        query(beg, en, node * 2 + 1, mid + 1, subtree_en) // take right
     );
 }
 
@@ -72,7 +70,6 @@ void solve(){
     for (int i = 0; i < q; i ++){
         cin >> p >> k >> l;
         int q = query(p, k);
-        cout << "q = " <<  q << "\n";
         int left = m - q;
         
         if (left >= l){
