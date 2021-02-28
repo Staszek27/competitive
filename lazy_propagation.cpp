@@ -32,6 +32,7 @@ void propagate(int node){
 }
 
 void upd(int beg, int en, int val, int node = 1, int subtree_beg = 0, int subtree_en = S - 1){
+    
     if (en < subtree_beg || beg > subtree_en){
         return;
         // nothing to do
@@ -43,6 +44,13 @@ void upd(int beg, int en, int val, int node = 1, int subtree_beg = 0, int subtre
         int mid = (subtree_beg + subtree_en) / 2;
         upd(beg, en, val, node * 2, subtree_beg, mid); // go left
         upd(beg, en, val, node * 2 + 1, mid + 1, subtree_en); // go right
+    }
+    propagate(node);
+    if (!is_leaf(node)){
+        tree[node] = max(
+            max(tree[node * 2], tree[node * 2 + 1]),
+            tree[node]
+        );
     }
 }
 
